@@ -1,0 +1,27 @@
+# Ipconfig BOF
+# Displays network adapter information (IP, subnet mask, gateway)
+
+beacon_command_register(
+    "bof_ipconfig",
+    "Display network adapter information",
+    "Synopsis: bof_ipconfig\n\n" .
+    "Enumerates network adapters and displays the IP address,\n" .
+    "subnet mask, and default gateway for each adapter using\n" .
+    "the GetAdaptersInfo Win32 API.\n\n" .
+    "Examples:\n" .
+    "  bof_ipconfig"
+);
+
+alias bof_ipconfig {
+    local('$bid $barch $handle $data');
+
+    $bid = $1;
+    $barch = barch($bid);
+
+    $handle = openf(script_resource("Ipconfig." . $barch . ".o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    btask($bid, "Retrieving network adapter information");
+    beacon_inline_execute($bid, $data, "go");
+}

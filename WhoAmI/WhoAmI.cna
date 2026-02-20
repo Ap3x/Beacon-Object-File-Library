@@ -1,0 +1,25 @@
+# WhoAmI BOF
+# Display the current user name
+
+beacon_command_register(
+    "bof_whoami",
+    "Display the current user name",
+    "Synopsis: bof_whoami\n\n" .
+    "Retrieves the current user name using the GetUserNameA Win32 API.\n\n" .
+    "Examples:\n" .
+    "  bof_whoami"
+);
+
+alias bof_whoami {
+    local('$bid $barch $handle $data');
+
+    $bid = $1;
+    $barch = barch($bid);
+
+    $handle = openf(script_resource("WhoAmI." . $barch . ".o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    btask($bid, "Retrieving current user name");
+    beacon_inline_execute($bid, $data, "go");
+}
