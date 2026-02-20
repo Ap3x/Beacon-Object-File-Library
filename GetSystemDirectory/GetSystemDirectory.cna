@@ -1,0 +1,26 @@
+# GetSystemDirectory BOF
+# Retrieves the Windows system directory path
+
+beacon_command_register(
+    "get_system_directory",
+    "Get the Windows system directory path",
+    "Synopsis: get_system_directory\n\n" .
+    "Retrieves the system directory path (e.g., C:\\Windows\\system32)\n" .
+    "using the GetSystemDirectoryA Win32 API.\n\n" .
+    "Examples:\n" .
+    "  get_system_directory"
+);
+
+alias get_system_directory {
+    local('$bid $barch $handle $data');
+
+    $bid = $1;
+    $barch = barch($bid);
+
+    $handle = openf(script_resource("GetSystemDirectory." . $barch . ".o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    btask($bid, "Retrieving system directory path");
+    beacon_inline_execute($bid, $data, "go");
+}

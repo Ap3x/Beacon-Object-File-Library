@@ -31,13 +31,24 @@ protected:
 	}
 };
 #else
+#include "..\Core\beacon.h"
+#include "..\Core\sleepmask.h"
+
+extern "C" {
+	DFR(KERNEL32, GetFileTime);
+	DFR(KERNEL32, SetFileTime);
+	DFR(KERNEL32, CreateFileA);
+	DFR(KERNEL32, CloseHandle);
+	DFR(KERNEL32, GetLastError);
+}
+#define GetFileTime KERNEL32$GetFileTime
+#define SetFileTime KERNEL32$SetFileTime
+#define CreateFileA KERNEL32$CreateFileA
+#define CloseHandle KERNEL32$CloseHandle
+#define GetLastError KERNEL32$GetLastError
+
 bool TimeStompFile(char* srcFile, char* destFile) {
 	FILETIME creationTime, lastAccessTime, lastWriteTime;
-
-	DFR_LOCAL(KERNEL32, GetFileTime);
-	DFR_LOCAL(KERNEL32, SetFileTime);
-	DFR_LOCAL(KERNEL32, CreateFileA);
-	DFR_LOCAL(KERNEL32, CloseHandle);
 
 	// Step 1: Open source file to read timestamps
 	HANDLE hSource = CreateFileA(
@@ -91,14 +102,6 @@ bool TimeStompFile(char* srcFile, char* destFile) {
 #endif
 
 extern "C" {
-#include "..\Core\beacon.h"
-#include "..\Core\sleepmask.h"
-
-	// Define the Dynamic Function Resolution declaration for the GetLastError function
-	DFR(KERNEL32, GetLastError);
-	// Map GetLastError to KERNEL32$GetLastError 
-#define GetLastError KERNEL32$GetLastError 
-
 	void go(char* args, int len) {
 		datap parser;
 		BeaconDataParse(&parser, args, len);

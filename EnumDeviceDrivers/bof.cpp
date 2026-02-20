@@ -31,13 +31,19 @@ protected:
 #include "..\Core\sleepmask.h"
 #define ARRAY_SIZE 256
 
+extern "C" {
+    DFR(PSAPI, EnumDeviceDrivers);
+    DFR(PSAPI, GetDeviceDriverBaseNameA);
+}
+#undef EnumDeviceDrivers
+#undef GetDeviceDriverBaseNameA
+#define EnumDeviceDrivers PSAPI$EnumDeviceDrivers
+#define GetDeviceDriverBaseNameA PSAPI$GetDeviceDriverBaseNameA
+
 bool EnumDrivers() {
     LPVOID drivers[ARRAY_SIZE];
     DWORD cbNeeded;
     int cDrivers, i;
-
-    DFR_LOCAL(PSAPI, EnumDeviceDrivers);
-    DFR_LOCAL(PSAPI, GetDeviceDriverBaseNameA);
 
     if (EnumDeviceDrivers(drivers, sizeof(drivers), &cbNeeded) && cbNeeded < sizeof(drivers))
     {

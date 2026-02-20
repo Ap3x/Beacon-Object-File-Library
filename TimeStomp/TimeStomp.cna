@@ -1,0 +1,36 @@
+# TimeStomp BOF
+# Copy file timestamps from a source file to a destination file
+
+beacon_command_register(
+    "timestomp",
+    "Copy file timestamps from one file to another",
+    "Synopsis: timestomp <source_file> <dest_file>\n\n" .
+    "Copies the creation time, last access time, and last write time\n" .
+    "from the source file to the destination file.\n\n" .
+    "Arguments:\n" .
+    "  source_file  - File to read timestamps from\n" .
+    "  dest_file    - File to apply timestamps to\n\n" .
+    "Examples:\n" .
+    "  timestomp C:\\Windows\\system32\\kernel32.dll C:\\Temp\\payload.exe"
+);
+
+alias timestomp {
+    local('$bid $barch $handle $data $args');
+
+    $bid = $1;
+    $barch = barch($bid);
+
+    if ($3 is $null || strlen($3) == 0) {
+        berror($bid, "Usage: timestomp <source_file> <dest_file>");
+        return;
+    }
+
+    $handle = openf(script_resource("TimeStomp." . $barch . ".o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    $args = bof_pack($bid, "zz", $2, $3);
+
+    btask($bid, "TimeStomp: copying timestamps from " . $2 . " to " . $3);
+    beacon_inline_execute($bid, $data, "go", $args);
+}

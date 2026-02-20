@@ -29,8 +29,12 @@ protected:
 #include "..\Core\beacon.h"
 #include "..\Core\sleepmask.h"
 
+extern "C" {
+	DFR(KERNEL32, GetSystemDirectoryA);
+}
+#define GetSystemDirectoryA KERNEL32$GetSystemDirectoryA
+
 LPSTR GetSystemDirectoryCustom() {
-	DFR_LOCAL(KERNEL32, GetSystemDirectoryA);
 	char path[MAX_PATH + 1];
 
 	UINT bytesCopied = GetSystemDirectoryA(path, MAX_PATH + 1);

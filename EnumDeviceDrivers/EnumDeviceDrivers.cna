@@ -1,0 +1,26 @@
+# EnumDeviceDrivers BOF
+# Enumerates all loaded kernel-mode device drivers
+
+beacon_command_register(
+    "enum_drivers",
+    "Enumerate loaded device drivers",
+    "Synopsis: enum_drivers\n\n" .
+    "Enumerates all loaded kernel-mode device drivers using the\n" .
+    "EnumDeviceDrivers and GetDeviceDriverBaseNameA Win32 APIs.\n\n" .
+    "Examples:\n" .
+    "  enum_drivers"
+);
+
+alias enum_drivers {
+    local('$bid $barch $handle $data');
+
+    $bid = $1;
+    $barch = barch($bid);
+
+    $handle = openf(script_resource("EnumDeviceDrivers." . $barch . ".o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    btask($bid, "Enumerating device drivers");
+    beacon_inline_execute($bid, $data, "go");
+}
