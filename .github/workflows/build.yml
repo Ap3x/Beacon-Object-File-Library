@@ -1,0 +1,46 @@
+name: Build BOFs
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  release:
+    name: Release (Object Files)
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CMake
+        run: cmake -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build BOFs
+        run: cmake --build build --config Release
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: BOFs-Release
+          path: build/bofs/*.obj
+
+  debug:
+    name: Debug (Executables)
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CMake
+        run: cmake -B build -G "Visual Studio 17 2022" -A x64 -DBUILD_DEBUG_EXES=ON
+
+      - name: Build Debug Executables
+        run: cmake --build build --config Debug --target WhoAmI_debug EnumDeviceDrivers_debug GetSystemDirectory_debug Ipconfig_debug FileExfiltrationUrlEncoded_debug RegistryPersistence_debug TimeStomp_debug
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: BOFs-Debug
+          path: build/debug/Debug/*.exe

@@ -2,17 +2,21 @@
 
 A library of Beacon Object Files (BOFs) for Cobalt Strike. This solution uses a modified version of [Cobalt Strike/bof-vs](https://github.com/Cobalt-Strike/bof-vs) to support multiple BOF projects, unit testing, and debug builds within a single Visual Studio solution.
 
+## Download
+
+Pre-built BOF object files are available from the latest [GitHub Actions run](https://github.com/Ap3x/Beacon-Object-File-Library/actions). Go to the most recent successful run and download the `BOFs` artifact.
+
 ## BOFs
 
-| Project | Description |
-|---------|-------------|
-| EnumDeviceDrivers | Enumerates all loaded device drivers |
-| FileExfiltrationUrlEncoded | Exfiltrates a file via chunked URL-encoded GET requests |
-| GetSystemDirectory | Retrieves the Windows system directory path |
-| Ipconfig | Displays network adapter IP, subnet mask, and gateway |
-| RegistryPersistence | Installs or removes a Run key for persistence |
-| TimeStomp | Copies file timestamps from one file to another |
-| WhoAmI | Returns the current username |
+| Project | Description | Download |
+|---------|-------------|----------|
+| EnumDeviceDrivers | Enumerates all loaded device drivers | [Latest](https://github.com/Ap3x/Beacon-Object-File-Library/actions) |
+| FileExfiltrationUrlEncoded | Exfiltrates a file via chunked URL-encoded GET requests | [Latest](https://github.com/Ap3x/Beacon-Object-File-Library/actions) |
+| GetSystemDirectory | Retrieves the Windows system directory path | [Latest](https://github.com/Ap3x/Beacon-Object-File-Library/actions) |
+| Ipconfig | Displays network adapter IP, subnet mask, and gateway | [Latest](https://github.com/Ap3x/Beacon-Object-File-Library/actions) |
+| RegistryPersistence | Installs or removes a Run key for persistence | [Latest](https://github.com/Ap3x/Beacon-Object-File-Library/actions) |
+| TimeStomp | Copies file timestamps from one file to another | [Latest](https://github.com/Ap3x/Beacon-Object-File-Library/actions) |
+| WhoAmI | Returns the current username | [Latest](https://github.com/Ap3x/Beacon-Object-File-Library/actions) |
 
 ## Build Configurations
 
