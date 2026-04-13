@@ -37,6 +37,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileExfiltrationUrlEncoded"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ipconfig", "Ipconfig\Ipconfig.vcxproj", "{A2B3C4D5-E6F7-8901-ABCD-2E3F4A5B6C7D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EnumNamedPipes", "EnumNamedPipes\EnumNamedPipes.vcxproj", "{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -125,6 +127,18 @@ Global
 		{A2B3C4D5-E6F7-8901-ABCD-2E3F4A5B6C7D}.UnitTest|x64.Build.0 = UnitTest|x64
 		{A2B3C4D5-E6F7-8901-ABCD-2E3F4A5B6C7D}.UnitTest|x86.ActiveCfg = UnitTest|Win32
 		{A2B3C4D5-E6F7-8901-ABCD-2E3F4A5B6C7D}.UnitTest|x86.Build.0 = UnitTest|Win32
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.Debug|x64.ActiveCfg = Debug|x64
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.Debug|x64.Build.0 = Debug|x64
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.Debug|x86.ActiveCfg = Debug|Win32
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.Debug|x86.Build.0 = Debug|Win32
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.Release|x64.ActiveCfg = Release|x64
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.Release|x64.Build.0 = Release|x64
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.Release|x86.ActiveCfg = Release|Win32
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.Release|x86.Build.0 = Release|Win32
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.UnitTest|x64.ActiveCfg = UnitTest|x64
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.UnitTest|x64.Build.0 = UnitTest|x64
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.UnitTest|x86.ActiveCfg = UnitTest|Win32
+		{C1A2B3D4-E5F6-7890-ABCD-1234567890AB}.UnitTest|x86.Build.0 = UnitTest|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
